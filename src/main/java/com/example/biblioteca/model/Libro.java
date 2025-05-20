@@ -1,19 +1,24 @@
 package com.example.biblioteca.model;
 
+//Imports
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
 public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //Atributos
     private Long id;
     
     private String titulo;
     private String isbn;
     private int anioPublicacion;
-    
+
+    //Uso de la relación de muchos a uno
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "autor_id")
+    @JsonBackReference
     private Autor autor;
 
     // Constructores, getters y setters

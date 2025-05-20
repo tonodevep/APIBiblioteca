@@ -1,5 +1,6 @@
 package com.example.biblioteca.service;
 
+//Imports
 import com.example.biblioteca.model.Autor;
 import com.example.biblioteca.model.Libro;
 import com.example.biblioteca.repository.AutorRepository;
@@ -11,27 +12,31 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+//Anotación de servicio
 @Service
 public class LibroService {
     @Autowired
     private LibroRepository libroRepository;
     private final AutorRepository autorRepository;
 
+    //Constructor
     public LibroService(LibroRepository libroRepository, AutorRepository autorRepository) {
         this.libroRepository = libroRepository;
         this.autorRepository = autorRepository;
     }
 
+    //Devuelve todos los libros encontrados en la base de datos
     public List<Libro> findAll() {
         return libroRepository.findAll();
     }
 
+    //Devuelve los libros buscados por el id
     public Optional<Libro> findById(Long id) {
         return libroRepository.findById(id);
     }
 
+    //Guarda los libros ingresados
     public Libro save(Libro libro) {
-        // 👇 Esta es la lógica del paso 3: buscar el autor por su ID y asignarlo completo
         if (libro.getAutor() != null && libro.getAutor().getId() != null) {
             Optional<Autor> autorOptional = autorRepository.findById(libro.getAutor().getId());
             if (autorOptional.isPresent()) {
@@ -43,11 +48,12 @@ public class LibroService {
         return libroRepository.save(libro);
     }
 
-
+    //Borra el libro según el id especificado
     public void deleteById(Long id) {
         libroRepository.deleteById(id);
     }
 
+    //Busca libros
     public List<Libro> buscarLibros(String titulo, Integer anio, String sortBy, String order) {
         if (titulo != null && anio != null) {
             if (sortBy != null) {

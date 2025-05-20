@@ -1,15 +1,15 @@
 package com.example.biblioteca.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity // Marca esta clase como una entidad JPA, lo que significa que se mapeará a una tabla en la base de datos
 public class Autor {
 
     @Id // Indica que este campo es la clave primaria
     @GeneratedValue(strategy = GenerationType.IDENTITY) // La base de datos generará automáticamente el valor del ID
+    @JsonManagedReference
     private Long id;
 
     private String nombre; // Nombre del autor
@@ -20,7 +20,6 @@ public class Autor {
     // mappedBy = "autor": el campo "autor" en la clase Libro es el dueño de la relación
     // cascade = ALL: las operaciones como persistir o eliminar se aplican también a los libros asociados
     // orphanRemoval = true: si un libro se elimina de la lista, se elimina también de la base de datos
-    @JsonIgnore // Evita que la lista de libros se incluya en la respuesta JSON (para evitar recursión o exceso de datos)
     private List<Libro> libros;
 
     // Constructor vacío requerido por JPA
